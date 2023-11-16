@@ -1,5 +1,6 @@
 package com.ssafy.planit.attraction.controller;
 
+import com.ssafy.planit.attraction.dto.AttractionCommentDto;
 import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
 import com.ssafy.planit.attraction.dto.AttractionInfoDto;
 import com.ssafy.planit.attraction.service.AttractionService;
@@ -30,5 +31,10 @@ public class AttractionController {
     @GetMapping("/view")
     public AttractionDescriptionDto view(@RequestParam int contentId) throws Exception {
         return attractionService.viewAttraction(contentId);
+    }
+
+    @GetMapping("/review")
+    public List<AttractionCommentDto> list(@RequestParam int contentId) throws Exception{
+        return attractionService.viewAttractionComment(contentId);
     }
 }

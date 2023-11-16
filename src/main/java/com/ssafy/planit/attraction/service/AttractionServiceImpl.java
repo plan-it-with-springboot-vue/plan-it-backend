@@ -1,5 +1,6 @@
 package com.ssafy.planit.attraction.service;
 
+import com.ssafy.planit.attraction.dto.AttractionCommentDto;
 import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
 import com.ssafy.planit.attraction.dto.AttractionInfoDto;
 import com.ssafy.planit.attraction.mapper.AttractionMapper;
@@ -26,5 +27,10 @@ public class AttractionServiceImpl implements AttractionService {
     @Override
     public AttractionDescriptionDto viewAttraction(int contentId) throws Exception {
         return attractionMapper.viewAttraction(contentId);
+    }
+
+    @Override
+    public List<AttractionCommentDto> viewAttractionComment(int contentId) throws Exception {
+        return attractionMapper.viewAttractionComment(contentId);
     }
 }

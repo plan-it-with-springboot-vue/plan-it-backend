@@ -29,6 +29,14 @@
         <result property="telname" column="telname" />
     </resultMap>
 
+    <resultMap id="AttractionCommentResultMap" type="AttractionCommentDto">
+        <id property="reviewId" column="review_id"/>
+        <result property="content" column="content"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="userId" column="user_id"/>
+        <result property="contentId" column="content_id"/>
+    </resultMap>
+
     <select id="listAttraction" resultMap="AttractionInfoDtoMap">
         SELECT
         content_id,
@@ -62,6 +70,12 @@
         select content_id, homepage, overview, telname
         from attraction_description
         where content_id = #{contentId}
+    </select>
+
+    <select id="viewAttractionComment" resultMap="AttractionCommentResultMap">
+        SELECT review_id, content, register_time, user_id, content_id
+        FROM attraction_comment
+        WHERE content_id = #{contentId}
     </select>
 
 </mapper>
