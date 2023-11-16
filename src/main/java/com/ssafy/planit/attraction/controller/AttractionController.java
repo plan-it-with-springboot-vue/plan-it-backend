@@ -48,7 +48,7 @@ public class AttractionController {
         }
     }
 
-    @GetMapping("/review/delete")
+    @DeleteMapping("/review/delete")
     public ResponseEntity<String> delete(@RequestParam int reviewId) throws Exception{
         try{
             attractionService.deleteAttractionComment(reviewId);
