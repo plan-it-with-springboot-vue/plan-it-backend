@@ -3,6 +3,7 @@ package com.ssafy.planit.attraction.controller;
 import com.ssafy.planit.attraction.dto.AttractionCommentDto;
 import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
 import com.ssafy.planit.attraction.dto.AttractionInfoDto;
+import com.ssafy.planit.attraction.dto.FavoritesDto;
 import com.ssafy.planit.attraction.service.AttractionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class AttractionController {
     }
 
     @PostMapping("/review/write")
-    public ResponseEntity<String> review(@RequestBody AttractionCommentDto attractionCommentDto) throws Exception{
+    public ResponseEntity<String> write(@RequestBody AttractionCommentDto attractionCommentDto) throws Exception{
         try{
             attractionService.writeAttractionComment(attractionCommentDto);
             return new ResponseEntity<>("AttractionComment write successfully", HttpStatus.CREATED);
@@ -58,4 +59,28 @@ public class AttractionController {
 
     }
 
+    @GetMapping("/like")
+    public List<FavoritesDto> list(@RequestParam String userId) throws Exception {
+        return attractionService.listFavorites(userId);
+    }
+
+    @PostMapping("like")
+    public ResponseEntity<String> save(@RequestBody FavoritesDto favoritesDto){
+        try {
+            attractionService.saveFavorites(favoritesDto);
+            return new ResponseEntity<>("Favorites save successfully", HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>("Error occurred during Favorites save", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/like")
+    public ResponseEntity<String> deleteFavorite(@RequestParam String userId, @RequestParam int contentId) {
+        try {
+            attractionService.deleteFavorite(userId, contentId);
+            return new ResponseEntity<>("Favorite deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error occurred during deletion", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

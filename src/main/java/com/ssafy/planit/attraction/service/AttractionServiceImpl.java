@@ -3,9 +3,11 @@ package com.ssafy.planit.attraction.service;
 import com.ssafy.planit.attraction.dto.AttractionCommentDto;
 import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
 import com.ssafy.planit.attraction.dto.AttractionInfoDto;
+import com.ssafy.planit.attraction.dto.FavoritesDto;
 import com.ssafy.planit.attraction.mapper.AttractionMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -42,5 +44,20 @@ public class AttractionServiceImpl implements AttractionService {
     @Override
     public void deleteAttractionComment(int reviewId) throws Exception {
         attractionMapper.deleteAttractionComment(reviewId);
+    }
+
+    @Override
+    public List<FavoritesDto> listFavorites(String userId) throws Exception {
+        return attractionMapper.listFavorites(userId);
+    }
+
+    @Override
+    public void saveFavorites(FavoritesDto favoritesDto) throws Exception {
+        attractionMapper.saveFavorites(favoritesDto);
+    }
+
+    @Override
+    public void deleteFavorite(String userId, int contentId) throws Exception {
+        attractionMapper.deleteFavorite(userId, contentId);
     }
 }

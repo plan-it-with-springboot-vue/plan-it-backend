@@ -37,6 +37,12 @@
         <result property="contentId" column="content_id"/>
     </resultMap>
 
+    <resultMap id="FavoritesDtoMap" type="FavoritesDto">
+        <id property="favoritesId" column="favorites_id"/>
+        <result property="contentId" column="content_id"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
     <select id="listAttraction" resultMap="AttractionInfoDtoMap">
         SELECT
         content_id,
@@ -88,4 +94,18 @@
         WHERE review_id = #{reviewId}
     </delete>
 
+    <select id="listFavorites" resultMap="FavoritesDtoMap">
+        SELECT favorites_id, content_id, user_id
+        FROM favorites
+        WHERE user_id = #{userId}
+    </select>
+
+    <insert id="saveFavorites">
+        INSERT INTO favorites (user_id, content_id)
+        VALUES (#{userId}, #{contentId})
+    </insert>
+
+    <delete id="deleteFavorite">
+        DELETE FROM favorites WHERE user_id = #{userId} AND content_id = #{contentId}
+    </delete>
 </mapper>
