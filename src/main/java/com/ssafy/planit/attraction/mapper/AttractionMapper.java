@@ -15,6 +15,7 @@ import java.util.Map;
 public interface AttractionMapper {
     public List<AttractionInfoDto> listAttraction(@RequestParam Map<String, Integer> map) throws Exception;
     public AttractionDescriptionDto viewAttraction(@RequestParam int contentId) throws Exception;
+    public List<AttractionInfoDto> searchByTitle(String title);
     public List<AttractionCommentDto> viewAttractionComment(@RequestParam int contentId) throws Exception;
     public void writeAttractionComment(@RequestBody AttractionCommentDto attractionCommentDto) throws Exception;
     public void deleteAttractionComment(@RequestParam int reviewId) throws Exception;

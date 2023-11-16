@@ -33,6 +33,16 @@ public class AttractionController {
         return attractionService.viewAttraction(contentId);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<AttractionInfoDto>> searchByTitle(@RequestParam String title) {
+        try {
+            List<AttractionInfoDto> attractions = attractionService.searchByTitle(title);
+            return new ResponseEntity<>(attractions, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/review")
     public List<AttractionCommentDto> list(@RequestParam int contentId) throws Exception{
         return attractionService.viewAttractionComment(contentId);

@@ -78,6 +78,10 @@
         where content_id = #{contentId}
     </select>
 
+    <select id="searchByTitle" resultType="AttractionInfoDto">
+        SELECT * FROM attraction_info WHERE title LIKE CONCAT('%', #{title}, '%')
+    </select>
+
     <select id="viewAttractionComment" resultMap="AttractionCommentResultMap">
         SELECT review_id, content, register_time, user_id, content_id
         FROM attraction_comment

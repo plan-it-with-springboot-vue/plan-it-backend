@@ -32,6 +32,11 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
+    public List<AttractionInfoDto> searchByTitle(String title) throws Exception {
+        return attractionMapper.searchByTitle(title);
+    }
+
+    @Override
     public List<AttractionCommentDto> viewAttractionComment(int contentId) throws Exception {
         return attractionMapper.viewAttractionComment(contentId);
     }
