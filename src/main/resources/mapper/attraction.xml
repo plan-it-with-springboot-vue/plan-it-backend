@@ -78,4 +78,14 @@
         WHERE content_id = #{contentId}
     </select>
 
+    <insert id="writeAttractionComment" parameterType="AttractionCommentDto">
+        INSERT INTO attraction_comment (content, register_time, user_id, content_id)
+        VALUES (#{content}, NOW(), #{userId}, #{contentId})
+    </insert>
+
+    <delete id="deleteAttractionComment">
+        DELETE FROM attraction_comment
+        WHERE review_id = #{reviewId}
+    </delete>
+
 </mapper>

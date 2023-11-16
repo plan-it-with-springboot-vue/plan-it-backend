@@ -5,10 +5,9 @@ import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
 import com.ssafy.planit.attraction.dto.AttractionInfoDto;
 import com.ssafy.planit.attraction.service.AttractionService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -37,4 +36,26 @@ public class AttractionController {
     public List<AttractionCommentDto> list(@RequestParam int contentId) throws Exception{
         return attractionService.viewAttractionComment(contentId);
     }
+
+    @PostMapping("/review/write")
+    public ResponseEntity<String> review(@RequestBody AttractionCommentDto attractionCommentDto) throws Exception{
+        try{
+            attractionService.writeAttractionComment(attractionCommentDto);
+            return new ResponseEntity<>("AttractionComment write successfully", HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>("Error occurred during AttractionComment write", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/review/delete")
+    public ResponseEntity<String> delete(@RequestParam int reviewId) throws Exception{
+        try{
+            attractionService.deleteAttractionComment(reviewId);
+            return new ResponseEntity<>("AttractionComment delete successfully", HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>("Error occurred during AttractionComment delete", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 }

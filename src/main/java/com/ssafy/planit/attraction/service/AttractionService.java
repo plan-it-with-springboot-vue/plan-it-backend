@@ -12,5 +12,7 @@ public interface AttractionService {
     public List<AttractionInfoDto> listAttraction(@RequestParam Map<String, Integer> map) throws Exception;
     public AttractionDescriptionDto viewAttraction(@RequestParam int contentId) throws Exception;
     public List<AttractionCommentDto> viewAttractionComment(@RequestParam int contentId) throws Exception;
+    public void writeAttractionComment(@RequestParam AttractionCommentDto attractionCommentDto) throws Exception;
+    public void deleteAttractionComment(@RequestParam int reviewId) throws Exception;
 }
 

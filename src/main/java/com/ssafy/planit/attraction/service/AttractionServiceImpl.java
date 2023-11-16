@@ -33,4 +33,14 @@ public class AttractionServiceImpl implements AttractionService {
     public List<AttractionCommentDto> viewAttractionComment(int contentId) throws Exception {
         return attractionMapper.viewAttractionComment(contentId);
     }
+
+    @Override
+    public void writeAttractionComment(AttractionCommentDto attractionCommentDto) throws Exception {
+        attractionMapper.writeAttractionComment(attractionCommentDto);
+    }
+
+    @Override
+    public void deleteAttractionComment(int reviewId) throws Exception {
+        attractionMapper.deleteAttractionComment(reviewId);
+    }
 }
