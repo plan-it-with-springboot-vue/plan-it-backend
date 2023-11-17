@@ -1,9 +1,6 @@
 package com.ssafy.planit.attraction.mapper;
 
-import com.ssafy.planit.attraction.dto.AttractionCommentDto;
-import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
-import com.ssafy.planit.attraction.dto.AttractionInfoDto;
-import com.ssafy.planit.attraction.dto.FavoritesDto;
+import com.ssafy.planit.attraction.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +10,8 @@ import java.util.Map;
 
 @Mapper
 public interface AttractionMapper {
-    public List<AttractionInfoDto> listAttraction(@RequestParam Map<String, Integer> map) throws Exception;
+
+    public List<AttractionMultiCategoriesDto> listAttraction(Map<String, Object> map) throws Exception;
     public AttractionDescriptionDto viewAttraction(@RequestParam int contentId) throws Exception;
     public List<AttractionInfoDto> searchByTitle(String title);
     public List<AttractionCommentDto> viewAttractionComment(@RequestParam int contentId) throws Exception;

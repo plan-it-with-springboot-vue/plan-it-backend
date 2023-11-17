@@ -1,9 +1,6 @@
 package com.ssafy.planit.attraction.controller;
 
-import com.ssafy.planit.attraction.dto.AttractionCommentDto;
-import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
-import com.ssafy.planit.attraction.dto.AttractionInfoDto;
-import com.ssafy.planit.attraction.dto.FavoritesDto;
+import com.ssafy.planit.attraction.dto.*;
 import com.ssafy.planit.attraction.service.AttractionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,7 +21,7 @@ public class AttractionController {
     }
 
     @GetMapping("/list")
-    public List<AttractionInfoDto> list(@RequestParam Map<String, Integer> map) throws Exception {
+    public List<AttractionMultiCategoriesDto> list(@RequestParam Map<String, Object> map) throws Exception {
         return attractionService.listAttraction(map);
     }
 

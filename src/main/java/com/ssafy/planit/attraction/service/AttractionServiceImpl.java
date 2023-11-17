@@ -1,16 +1,13 @@
 package com.ssafy.planit.attraction.service;
 
-import com.ssafy.planit.attraction.dto.AttractionCommentDto;
-import com.ssafy.planit.attraction.dto.AttractionDescriptionDto;
-import com.ssafy.planit.attraction.dto.AttractionInfoDto;
-import com.ssafy.planit.attraction.dto.FavoritesDto;
+import com.ssafy.planit.attraction.dto.*;
 import com.ssafy.planit.attraction.mapper.AttractionMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AttractionServiceImpl implements AttractionService {
@@ -22,7 +19,16 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<AttractionInfoDto> listAttraction(Map<String, Integer> map) throws Exception {
+    public List<AttractionMultiCategoriesDto> listAttraction(Map<String, Object> map) throws Exception {
+        // contentTypeIds 파라미터가 존재하면 List로 변환하여 map에 추가
+        if (map.containsKey("contentTypeId")) {
+            String contentTypeIdString = map.get("contentTypeId").toString();
+            List<Integer> contentTypeIds = Arrays.stream(contentTypeIdString.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+            map.put("contentTypeIds", contentTypeIds);
+        }
+
         return attractionMapper.listAttraction(map);
     }
 

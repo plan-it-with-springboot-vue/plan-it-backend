@@ -44,31 +44,17 @@
     </resultMap>
 
     <select id="listAttraction" resultMap="AttractionInfoDtoMap">
-        SELECT
-        content_id,
-        content_type_id,
-        title,
-        addr1,
-        addr2,
-        zipcode,
-        tel,
-        first_image,
-        first_image2,
-        readcount,
-        sido_code,
-        gugun_code,
-        latitude,
-        longitude,
-        mlevel
-        FROM
-        attraction_info
-        WHERE
-        sido_code = #{sidoCode}
+        SELECT *
+        FROM attraction_info
+        WHERE sido_code = #{sidoCode}
         <if test="gugunCode != null">
             AND gugun_code = #{gugunCode}
         </if>
-        <if test="contentTypeId != null">
-            AND content_type_id = #{contentTypeId}
+        <if test="contentTypeIds != null and contentTypeIds.size() > 0">
+            AND content_type_id IN
+            <foreach item="contentTypeId" collection="contentTypeIds" open="(" separator="," close=")">
+                #{contentTypeId}
+            </foreach>
         </if>
     </select>
 
