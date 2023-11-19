@@ -84,10 +84,13 @@
         WHERE review_id = #{reviewId}
     </delete>
 
-    <select id="listFavorites" resultMap="FavoritesDtoMap">
-        SELECT favorites_id, content_id, user_id
-        FROM favorites
-        WHERE user_id = #{userId}
+    <select id="getUserFavorites" resultMap="AttractionInfoDtoMap">
+        SELECT ai.content_id, ai.title, ai.addr1, ai.addr2, ai.zipcode, ai.tel, ai.content_type_id,
+               ai.first_image, ai.first_image2, ai.readcount, ai.sido_code,
+               ai.gugun_code, ai.latitude, ai.longitude, ai.mlevel
+        FROM favorites f
+                 JOIN attraction_info ai ON f.content_id = ai.content_id
+        WHERE f.user_id = #{userId}
     </select>
 
     <insert id="saveFavorites">

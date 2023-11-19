@@ -58,8 +58,8 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<FavoritesDto> listFavorites(String userId) throws Exception {
-        return attractionMapper.listFavorites(userId);
+    public List<AttractionInfoDto> getUserFavorites(String userId) {
+        return attractionMapper.getUserFavorites(userId);
     }
 
     @Override
