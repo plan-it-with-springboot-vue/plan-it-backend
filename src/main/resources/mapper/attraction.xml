@@ -64,7 +64,7 @@
         where content_id = #{contentId}
     </select>
 
-    <select id="searchByTitle" resultType="AttractionInfoDto">
+    <select id="searchByTitle" resultMap="AttractionInfoDtoMap">
         SELECT * FROM attraction_info WHERE title LIKE CONCAT('%', #{title}, '%')
     </select>
 
