@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.plan.mapper.PlanMapper">
+    <resultMap id="planResult" type="com.ssafy.planit.plan.dto.PlanDto">
+        <id property="planId" column="plan_id"/>
+        <result property="title" column="title"/>
+        <result property="startSchedule" column="start_schedule"/>
+        <result property="endSchedule" column="end_schedule"/>
+        <result property="userId" column="user_id"/>
+
+        <collection property="planDetail" ofType="com.ssafy.planit.plan.dto.PlanDetailDto">
+            <id property="planDetailId" column="plan_detail_id"/>
+            <result property="planId" column="plan_id"/>
+            <result property="contentId" column="content_id"/>
+            <result property="planDate" column="plan_date"/>
+            <result property="time" column="time"/>
+            <result property="sequence" column="sequence"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertPlan" parameterType="com.ssafy.planit.plan.dto.PlanDto">
+        <selectKey keyProperty="planId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO plan (title, start_schedule, end_schedule, user_id)
+        VALUES (#{title}, #{startSchedule}, #{endSchedule}, #{userId})
+    </insert>
+
+    <insert id="insertPlanDetail" parameterType="com.ssafy.planit.plan.dto.PlanDto">
+        INSERT INTO plan_detail (plan_id, content_id, plan_date, `time`, sequence)
+        VALUES (#{planId}, #{contentId}, #{planDate}, #{time}, #{sequence})
+    </insert>
+
+
+    <select id="getPlanById" parameterType="int" resultMap="planResult">
+        SELECT
+            p.plan_id, p.title, p.start_schedule, p.end_schedule, p.user_id,
+            pd.plan_detail_id, pd.plan_id, pd.content_id, pd.plan_date, pd.time, pd.sequence
+        FROM plan p
+                 LEFT JOIN plan_detail pd ON p.plan_id = pd.plan_id
+        WHERE p.plan_id = #{planId}
+    </select>
+
+    <delete id="deletePlanById" parameterType="int">
+        DELETE FROM plan WHERE plan_id = #{planId}
+    </delete>
+
+    <delete id="deletePlanDetailByPlanId" parameterType="int">
+        DELETE FROM plan_detail WHERE plan_id = #{planId}
+    </delete>
+
+    <update id="updatePlanWithDetails" parameterType="com.ssafy.planit.plan.dto.PlanDto">
+        UPDATE plan
+        SET title = #{title}, start_schedule = #{startSchedule}, end_schedule = #{endSchedule}, user_id = #{userId}
+        WHERE plan_id = #{planId}
+
+        <foreach collection="planDetail" item="detail" index="index">
+            UPDATE plan_detail
+            SET content_id = #{detail.contentId}, plan_date = #{detail.planDate}, time = #{detail.time}, sequence = #{detail.sequence}
+            WHERE plan_detail_id = #{detail.planDetailId}
+        </foreach>
+    </update>
+</mapper>
