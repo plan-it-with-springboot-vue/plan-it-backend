@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.plan.mapper.PlanMapper">
+    <insert id="insertPlan" parameterType="com.ssafy.planit.plan.dto.PlanDto">
+        <selectKey keyProperty="planId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO plan (title, start_schedule, end_schedule, user_id)
+        VALUES (#{title}, #{startSchedule}, #{endSchedule}, #{userId})
+    </insert>
+
+    <insert id="insertPlanDetail" parameterType="com.ssafy.planit.plan.dto.PlanDto">
+        INSERT INTO plan_detail (plan_id, content_id, plan_date, `time`, sequence)
+        VALUES (#{planId}, #{contentId}, #{planDate}, #{time}, #{sequence})
+    </insert>
+</mapper>
