@@ -25,4 +25,9 @@ public class PlanServiceImpl implements PlanService{
             planMapper.insertPlanDetail(detail);
         }
     }
+
+    @Override
+    public PlanDto getPlanById(int planId) {
+        return planMapper.getPlanById(planId);
+    }
 }

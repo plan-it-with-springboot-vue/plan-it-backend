@@ -11,4 +11,5 @@ public interface PlanMapper {
 
     public void insertPlan(PlanDto planDto);
     public void insertPlanDetail(PlanDetailDto planDetailDto);
+    public PlanDto getPlanById(int planId);
 }
