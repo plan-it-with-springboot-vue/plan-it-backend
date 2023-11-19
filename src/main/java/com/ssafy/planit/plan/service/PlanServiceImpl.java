@@ -32,6 +32,11 @@ public class PlanServiceImpl implements PlanService{
     }
 
     @Override
+    public List<PlanDto> listPlanByUserId(String userId) {
+        return planMapper.listPlanByUserId(userId);
+    }
+
+    @Override
     public void deletePlanById(int planId) {
         planMapper.deletePlanById(planId);
     }

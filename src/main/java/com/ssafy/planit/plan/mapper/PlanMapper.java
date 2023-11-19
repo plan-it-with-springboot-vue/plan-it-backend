@@ -12,6 +12,7 @@ public interface PlanMapper {
     public void insertPlan(PlanDto planDto);
     public void insertPlanDetail(PlanDetailDto planDetailDto);
     public PlanDto getPlanById(int planId);
+    public List<PlanDto> listPlanByUserId(String userId);
     public void deletePlanById(int planId);
     public void deletePlanDetailByPlanId(int planId);
 }

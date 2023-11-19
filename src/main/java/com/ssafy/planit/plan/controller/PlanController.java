@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/plan")
 @Slf4j
@@ -34,6 +36,11 @@ public class PlanController {
     @GetMapping("/view")
     public PlanDto viewPlan(int planId){
         return planService.getPlanById(planId);
+    }
+
+    @GetMapping("/list")
+    public List<PlanDto> listPlan(String userId){
+        return planService.listPlanByUserId(userId);
     }
 
     @DeleteMapping("/delete")
