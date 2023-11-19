@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/plan")
 @Slf4j
+@CrossOrigin
 public class PlanController {
 
     private final PlanService planService;
@@ -34,4 +35,18 @@ public class PlanController {
     public PlanDto viewPlan(int planId){
         return planService.getPlanById(planId);
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deletePlan(int planId){
+        try {
+            planService.deletePlanById(planId);
+            planService.deletePlanDetailByPlanId(planId);
+
+            return new ResponseEntity<>("Plan and Plan detail delete successfully", HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("Error occurred during Plan and Plan detail delete", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

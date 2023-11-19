@@ -30,4 +30,14 @@ public class PlanServiceImpl implements PlanService{
     public PlanDto getPlanById(int planId) {
         return planMapper.getPlanById(planId);
     }
+
+    @Override
+    public void deletePlanById(int planId) {
+        planMapper.deletePlanById(planId);
+    }
+
+    @Override
+    public void deletePlanDetailByPlanId(int planId) {
+        planMapper.deletePlanDetailByPlanId(planId);
+    }
 }

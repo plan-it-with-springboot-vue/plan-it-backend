@@ -12,4 +12,6 @@ public interface PlanMapper {
     public void insertPlan(PlanDto planDto);
     public void insertPlanDetail(PlanDetailDto planDetailDto);
     public PlanDto getPlanById(int planId);
+    public void deletePlanById(int planId);
+    public void deletePlanDetailByPlanId(int planId);
 }

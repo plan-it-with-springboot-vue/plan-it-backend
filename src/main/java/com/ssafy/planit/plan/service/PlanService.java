@@ -6,4 +6,7 @@ public interface PlanService {
 
     public void savePlanWithDetails(PlanDto planDto) throws Exception;
     public PlanDto getPlanById(int planId);
+    public void deletePlanById(int planId);
+    public void deletePlanDetailByPlanId(int planId);
+
 }
