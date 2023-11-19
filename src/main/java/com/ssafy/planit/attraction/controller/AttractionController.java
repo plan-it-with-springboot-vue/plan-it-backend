@@ -13,6 +13,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/attraction")
 @Slf4j
+@CrossOrigin
 public class AttractionController {
     private final AttractionService attractionService;
 
