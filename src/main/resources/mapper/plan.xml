@@ -37,9 +37,9 @@
         VALUES (#{title}, #{startSchedule}, #{endSchedule}, #{userId})
     </insert>
 
-    <insert id="insertPlanDetail" parameterType="com.ssafy.planit.plan.dto.PlanDto">
-        INSERT INTO plan_detail (plan_id, content_id, plan_date, `time`, sequence)
-        VALUES (#{planId}, #{contentId}, #{planDate}, #{time}, #{sequence})
+    <insert id="insertPlanDetail" parameterType="com.ssafy.planit.plan.dto.PlanDetailDto">
+        INSERT INTO plan_detail (plan_id, content_id, plan_date, time, sequence)
+        VALUES (#{planId}, #{attraction.contentId}, #{planDate}, #{time}, #{sequence})
     </insert>
 
 
@@ -66,16 +66,4 @@
     <delete id="deletePlanDetailByPlanId" parameterType="int">
         DELETE FROM plan_detail WHERE plan_id = #{planId}
     </delete>
-
-    <update id="updatePlanWithDetails" parameterType="com.ssafy.planit.plan.dto.PlanDto">
-        UPDATE plan
-        SET title = #{title}, start_schedule = #{startSchedule}, end_schedule = #{endSchedule}, user_id = #{userId}
-        WHERE plan_id = #{planId}
-
-        <foreach collection="planDetail" item="detail" index="index">
-            UPDATE plan_detail
-            SET content_id = #{detail.contentId}, plan_date = #{detail.planDate}, time = #{detail.time}, sequence = #{detail.sequence}
-            WHERE plan_detail_id = #{detail.planDetailId}
-        </foreach>
-    </update>
 </mapper>

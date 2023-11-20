@@ -1,5 +1,6 @@
 package com.ssafy.planit.plan.dto;
 
+import com.ssafy.planit.attraction.dto.AttractionInfoDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,9 +13,8 @@ public class PlanDetailDto {
 
     private int planDetailId;
     private int planId;
-    private String contentId;
     private Date planDate;
     private Time time;
     private int sequence;
-
+    private AttractionInfoDto attraction;
 }
