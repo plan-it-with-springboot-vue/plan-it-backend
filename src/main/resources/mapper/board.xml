@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.board.mapper.BoardMapper">
+
+    <resultMap type="boardDto" id="article">
+        <result column="board_id" property="boardId"/>
+        <result column="subject" property="subject"/>
+        <result column="content" property="content"/>
+        <result column="hit" property="hit"/>
+        <result column="register_time" property="registerTime"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <insert id="writeArticle" parameterType="boardDto">
+        insert into board (user_id, subject, content, hit, register_time)
+        values (#{userId}, #{subject}, #{content}, 0, now())
+    </insert>
+
+    <select id="listArticle" resultMap="article">
+        select * from board
+    </select>
+
+    <select id="getArticle" parameterType="int" resultMap="article">
+        select * from board
+        where board_id = #{boardId}
+    </select>
+
+    <update id="updateHit" parameterType="int">
+        update board
+        set hit = hit + 1
+        where board_id = #{boardId}
+    </update>
+
+    <update id="modifyArticle" parameterType="boardDto">
+        update board
+        set subject = #{subject}, content = #{content}
+        where board_id = #{boardId}
+    </update>
+
+    <delete id="deleteArticle" parameterType="int">
+        delete from board
+        where board_id = #{boardId}
+    </delete>
+
+</mapper>
