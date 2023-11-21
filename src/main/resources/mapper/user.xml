@@ -46,4 +46,26 @@
         where user_id = #{userId}
     </update>
 
+    <insert id="addUser" parameterType="UserDto">
+        INSERT INTO `user` (
+            `user_id`,
+            `user_password`,
+            `user_name`,
+            `user_phone_number`,
+            `user_email`,
+            `user_birth`,
+            `user_gender`,
+            `user_join_date`
+        ) VALUES (
+                     #{userId},
+                     #{userPassword},
+                     #{userName},
+                     #{userPhoneNumber},
+                     #{userEmail},
+                     #{userBirth},
+                     #{userGender},
+                     NOW()
+                 )
+    </insert>
+
 </mapper>

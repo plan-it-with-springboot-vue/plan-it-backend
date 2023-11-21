@@ -121,4 +121,15 @@ public class UserController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+    @PostMapping("/join")
+    public ResponseEntity<String> signUpUser(@RequestBody UserDto userDto) {
+        try {
+            System.out.println(userDto);
+            userService.addUser(userDto);
+            return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

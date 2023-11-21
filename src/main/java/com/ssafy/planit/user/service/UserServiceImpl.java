@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
         map.put("token", null);
         userMapper.deleteRefreshToken(map);
     }
+
+    @Override
+    public void addUser(UserDto userDto) throws Exception {
+        userMapper.addUser(userDto);
+    }
 }
