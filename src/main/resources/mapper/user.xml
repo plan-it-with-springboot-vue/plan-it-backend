@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.user.mapper.UserMapper">
+
+    <resultMap type="userDto" id="user">
+        <result column="user_id" property="userId"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_phone_number" property="userPhoneNumber"/>
+        <result column="user_email" property="userEmail"/>
+        <result column="user_birth" property="userBirth"/>
+        <result column="user_gender" property="userGender"/>
+        <result column="user_join_date" property="userJoinDate"/>
+        <result column="token" property="refreshToken"/>
+    </resultMap>
+
+    <select id="login" parameterType="map" resultMap="user">
+        select user_id, user_name, token
+        from user
+        where user_id = #{userId} and user_password = #{userPassword}
+    </select>
+
+    <select id="userInfo" parameterType="string" resultMap="user">
+        select user_name, user_password, user_phone_number, user_birth, user_gender, user_id, user_email, user_join_date
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <update id="saveRefreshToken" parameterType="map">
+        update user
+        set token = #{token}
+        where user_id = #{userId}
+    </update>
+
+    <select id="getRefreshToken" parameterType="string" resultType="string">
+        select token
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <update id="deleteRefreshToken" parameterType="map">
+        update user
+        set token = #{token, jdbcType=VARCHAR}
+        where user_id = #{userId}
+    </update>
+
+</mapper>
