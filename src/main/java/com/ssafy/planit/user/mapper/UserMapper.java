@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.mapper;
 
+import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +15,6 @@ public interface UserMapper {
     public Object getRefreshToken(String userId) throws SQLException;
     public void deleteRefreshToken(Map<String, String> map) throws SQLException;
     public void addUser(UserDto userDto) throws SQLException;
+    public String findUserId(FindUserIdDto findUserIdDto) throws SQLException;
+    public int checkDuplicateUserId(String userId) throws SQLException;
 }

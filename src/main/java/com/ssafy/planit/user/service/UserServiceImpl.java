@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.service;
 
+import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
 import com.ssafy.planit.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(UserDto userDto) throws Exception {
         userMapper.addUser(userDto);
+    }
+
+    @Override
+    public String findUserId(FindUserIdDto findUserIdDto) throws Exception {
+        return userMapper.findUserId(findUserIdDto);
+    }
+
+    @Override
+    public boolean checkDuplicateUserId(String userId) throws Exception {
+        int count = userMapper.checkDuplicateUserId(userId);
+        return count>0;
     }
 }

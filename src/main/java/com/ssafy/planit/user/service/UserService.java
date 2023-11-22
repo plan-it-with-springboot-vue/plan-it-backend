@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.service;
 
+import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
 
 import java.sql.SQLException;
@@ -13,5 +14,7 @@ public interface UserService {
     public Object getRefreshToken(String userId) throws Exception;
     public void deleteRefreshToken(String userId) throws Exception;
     public void addUser(UserDto userDto) throws Exception;
+    public String findUserId(FindUserIdDto findUserIdDto) throws Exception;
+    public boolean checkDuplicateUserId(String userId) throws Exception;
 
 }

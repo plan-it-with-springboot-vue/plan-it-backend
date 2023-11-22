@@ -68,4 +68,16 @@
                  )
     </insert>
 
+    <select id="findUserId" parameterType="com.ssafy.planit.user.dto.FindUserIdDto" resultType="String">
+        SELECT user_id
+        FROM user
+        WHERE user_email = #{userEmail}
+          AND user_birth = #{userBirth}
+    </select>
+
+    <select id="checkDuplicateUserId" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
 </mapper>

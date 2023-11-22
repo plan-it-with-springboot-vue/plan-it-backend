@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.controller;
 
+import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
 import com.ssafy.planit.user.service.UserService;
 import com.ssafy.planit.util.JWTUtil;
@@ -132,5 +133,15 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to register user", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/findUserId")
+    public String findUserId(@RequestBody FindUserIdDto findUserIdDto) throws Exception {
+        return userService.findUserId(findUserIdDto);
+    }
+
+    @GetMapping("/checkDuplicate/{userId}")
+    public boolean checkDuplicateUserId(@PathVariable String userId) throws Exception {
+        return userService.checkDuplicateUserId(userId);
     }
 }
