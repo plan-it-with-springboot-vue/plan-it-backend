@@ -23,7 +23,7 @@
     </select>
 
     <select id="userInfo" parameterType="string" resultMap="user">
-        select user_name, user_password, user_phone_number, user_birth, user_gender, user_id, user_email, user_join_date
+        select *
         from user
         where user_id = #{userId}
     </select>
@@ -48,24 +48,24 @@
 
     <insert id="addUser" parameterType="UserDto">
         INSERT INTO `user` (
-            `user_id`,
-            `user_password`,
-            `user_name`,
-            `user_phone_number`,
-            `user_email`,
-            `user_birth`,
-            `user_gender`,
-            `user_join_date`
+            user_id,
+            user_password,
+            user_name,
+            user_phone_number,
+            user_email,
+            user_birth,
+            user_gender,
+            user_join_date
         ) VALUES (
-                     #{userId},
-                     #{userPassword},
-                     #{userName},
-                     #{userPhoneNumber},
-                     #{userEmail},
-                     #{userBirth},
-                     #{userGender},
-                     NOW()
-                 )
+            #{userId},
+            #{userPassword},
+            #{userName},
+            #{userPhoneNumber},
+            #{userEmail},
+            #{userBirth},
+            #{userGender},
+            NOW()
+        )
     </insert>
 
     <select id="findUserId" parameterType="com.ssafy.planit.user.dto.FindUserIdDto" resultType="String">
@@ -85,4 +85,8 @@
         DELETE FROM user
         WHERE user_id = #{userId}
     </delete>
+
+    <update id="updatePassword">
+        UPDATE user SET user_password = #{newPassword} WHERE user_id = #{userId}
+    </update>
 </mapper>

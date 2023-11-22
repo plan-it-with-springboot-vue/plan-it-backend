@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.mapper;
 
+import com.ssafy.planit.user.dto.ChangePasswordDto;
 import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,4 +19,5 @@ public interface UserMapper {
     public String findUserId(FindUserIdDto findUserIdDto) throws SQLException;
     public int checkDuplicateUserId(String userId) throws SQLException;
     public void deleteUserById(String userId) throws SQLException;
+    public void updatePassword(String userId, String newPassword) throws SQLException;
 }

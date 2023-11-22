@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.service;
 
+import com.ssafy.planit.user.dto.ChangePasswordDto;
 import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
 
@@ -17,4 +18,6 @@ public interface UserService {
     public String findUserId(FindUserIdDto findUserIdDto) throws Exception;
     public boolean checkDuplicateUserId(String userId) throws Exception;
     public void deleteUserById(String userId) throws Exception;
+    public  boolean verifyPassword(String userId, String userPassword) throws Exception;
+    public void changePassword(ChangePasswordDto changePasswordDto) throws Exception;
 }

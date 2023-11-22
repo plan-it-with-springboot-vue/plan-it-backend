@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.service;
 
+import com.ssafy.planit.user.dto.ChangePasswordDto;
 import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
 import com.ssafy.planit.user.mapper.UserMapper;
@@ -68,4 +69,18 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(String userId) throws Exception {
         userMapper.deleteUserById(userId);
     }
+
+    @Override
+    public boolean verifyPassword(String userId, String userPassword) throws Exception {
+        UserDto userDto = userMapper.userInfo(userId);
+        assert userDto != null;
+        return userDto.getUserPassword().equals(userPassword);
+    }
+
+    @Override
+    public void changePassword(ChangePasswordDto changePasswordDto) throws Exception {
+        userMapper.updatePassword(changePasswordDto.getUserId(), changePasswordDto.getNewPassword());
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.ssafy.planit.user.controller;
 
+import com.ssafy.planit.user.dto.ChangePasswordDto;
 import com.ssafy.planit.user.dto.EmailCheckDto;
 import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
@@ -181,6 +182,16 @@ public class UserController {
         }
         else{
             return new ResponseEntity<>("failed auth check", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/updatePassword")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDto changePasswordDto) throws Exception {
+        if (userService.verifyPassword(changePasswordDto.getUserId(), changePasswordDto.getCurrentPassword())) {
+            userService.changePassword(changePasswordDto);
+            return ResponseEntity.ok("Password changed successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to change password. Verify current password.");
         }
     }
 }
