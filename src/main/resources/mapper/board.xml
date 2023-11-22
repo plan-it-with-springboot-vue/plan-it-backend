@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.board.mapper.BoardMapper">
+
+    <resultMap type="boardDto" id="article">
+        <result column="board_id" property="boardId"/>
+        <result column="subject" property="subject"/>
+        <result column="content" property="content"/>
+        <result column="hit" property="hit"/>
+        <result column="register_time" property="registerTime"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <resultMap type="boardCommentDto" id="comment">
+        <result column="board_comment_id" property="boardCommentId"/>
+        <result column="board_id" property="boardId"/>
+        <result column="user_id" property="userId"/>
+        <result column="register_time" property="registerTime"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
+    <insert id="writeArticle" parameterType="boardDto">
+        insert into board (user_id, subject, content, hit, register_time)
+        values (#{userId}, #{subject}, #{content}, 0, now())
+    </insert>
+
+    <select id="listArticle" resultMap="article">
+        select * from board order by board_id desc
+    </select>
+
+    <select id="getArticle" parameterType="int" resultMap="article">
+        select * from board
+        where board_id = #{boardId}
+    </select>
+
+    <update id="updateHit" parameterType="int">
+        update board
+        set hit = hit + 1
+        where board_id = #{boardId}
+    </update>
+
+    <update id="modifyArticle" parameterType="boardDto">
+        update board
+        set subject = #{subject}, content = #{content}
+        where board_id = #{boardId}
+    </update>
+
+    <delete id="deleteArticle" parameterType="int">
+        delete from board
+        where board_id = #{boardId}
+    </delete>
+
+    <insert id="writeComment" parameterType="boardCommentDto">
+        insert into board_comment (board_id, user_id, register_time, content)
+        values (#{boardId}, #{userId}, now(), #{content})
+    </insert>
+
+    <select id="listComment" parameterType="int" resultMap="comment">
+        select * from board_comment where board_id = #{boardId} order by board_comment_id desc
+    </select>
+
+    <update id="modifyComment" parameterType="boardCommentDto">
+        update board_comment
+        set content = #{content}
+        where board_comment_id = #{boardCommentId}
+    </update>
+
+    <delete id="deleteComment" parameterType="int">
+        delete from board_comment
+        where board_comment_id = #{boardCommentId}
+    </delete>
+
+</mapper>
