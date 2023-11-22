@@ -1,7 +1,9 @@
 package com.ssafy.planit.user.controller;
 
+import com.ssafy.planit.user.dto.EmailCheckDto;
 import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
+import com.ssafy.planit.user.service.EmailService;
 import com.ssafy.planit.user.service.UserService;
 import com.ssafy.planit.util.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,11 +25,13 @@ public class UserController {
 
     private final UserService userService;
     private final JWTUtil jwtUtil;
+    private final EmailService emailService;
 
-    public UserController(UserService userService, JWTUtil jwtUtil) {
+    public UserController(UserService userService, JWTUtil jwtUtil, EmailService emailService) {
         super();
         this.userService = userService;
         this.jwtUtil = jwtUtil;
+        this.emailService=emailService;
     }
 
     @PostMapping("/login")
@@ -152,6 +158,29 @@ public class UserController {
             return new ResponseEntity<>("User delete successfully", HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>("Failed to delete user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/emailSend")
+    public ResponseEntity<String> EmailCheck(@RequestBody EmailCheckDto emailCheckReq) throws MessagingException, UnsupportedEncodingException {
+        try {
+            String authCode = emailService.sendEmail(emailCheckReq.getEmail());
+            return new ResponseEntity<>("Email success", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Email Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @PostMapping("/emailAuthCheck")
+    public ResponseEntity<String> AuthCheck(@RequestBody EmailCheckDto emailCheckReq){
+        boolean Checked=emailService.checkAuthNum(emailCheckReq.getEmail(),emailCheckReq.getAuthNum());
+        if(Checked){
+            return new ResponseEntity<>("Auth code check success", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("failed auth check", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
