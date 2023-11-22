@@ -73,8 +73,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean verifyPassword(String userId, String userPassword) throws Exception {
         UserDto userDto = userMapper.userInfo(userId);
-        assert userDto != null;
-        return userDto.getUserPassword().equals(userPassword);
+        return userDto != null && userDto.getUserPassword().equals(userPassword);
     }
 
     @Override

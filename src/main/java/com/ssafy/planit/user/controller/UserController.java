@@ -1,9 +1,6 @@
 package com.ssafy.planit.user.controller;
 
-import com.ssafy.planit.user.dto.ChangePasswordDto;
-import com.ssafy.planit.user.dto.EmailCheckDto;
-import com.ssafy.planit.user.dto.FindUserIdDto;
-import com.ssafy.planit.user.dto.UserDto;
+import com.ssafy.planit.user.dto.*;
 import com.ssafy.planit.user.service.EmailService;
 import com.ssafy.planit.user.service.UserService;
 import com.ssafy.planit.util.JWTUtil;
@@ -185,13 +182,22 @@ public class UserController {
         }
     }
 
+    @PostMapping("/verifyPassword")
+    public ResponseEntity<String> verifyCurrentPassword(@RequestBody VerifyPasswordDto verifyPasswordDto) throws Exception {
+        if (userService.verifyPassword(verifyPasswordDto.getUserId(), verifyPasswordDto.getUserPassword())) {
+            return ResponseEntity.ok("Current password verified");
+        } else {
+            return ResponseEntity.badRequest().body("Current password verification failed");
+        }
+    }
+
     @PutMapping("/updatePassword")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDto changePasswordDto) throws Exception {
-        if (userService.verifyPassword(changePasswordDto.getUserId(), changePasswordDto.getCurrentPassword())) {
+        try {
             userService.changePassword(changePasswordDto);
-            return ResponseEntity.ok("Password changed successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Failed to change password. Verify current password.");
+            return new ResponseEntity<>("pass change success", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("failed change", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

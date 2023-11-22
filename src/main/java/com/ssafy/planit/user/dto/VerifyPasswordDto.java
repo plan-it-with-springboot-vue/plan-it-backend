@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ChangePasswordDto {
-
+public class VerifyPasswordDto {
     private String userId;
-    private String newPassword;
-
+    private String userPassword;
 }
