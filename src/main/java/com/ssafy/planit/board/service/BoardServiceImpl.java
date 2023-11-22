@@ -1,5 +1,6 @@
 package com.ssafy.planit.board.service;
 
+import com.ssafy.planit.board.dto.BoardCommentDto;
 import com.ssafy.planit.board.dto.BoardDto;
 import com.ssafy.planit.board.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,25 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     public void deleteArticle(int boardId) throws Exception {
         boardMapper.deleteArticle(boardId);
+    }
+
+    @Override
+    public void writeComment(BoardCommentDto boardCommentDto) throws Exception {
+        boardMapper.writeComment(boardCommentDto);
+    }
+
+    @Override
+    public List<BoardCommentDto> listComment(int boardId) throws Exception {
+        return boardMapper.listComment(boardId);
+    }
+
+    @Override
+    public void modifyComment(BoardCommentDto boardCommentDto) throws Exception {
+        boardMapper.modifyComment(boardCommentDto);
+    }
+
+    @Override
+    public void deleteComment(int boardCommentId) throws Exception {
+        boardMapper.deleteComment(boardCommentId);
     }
 }

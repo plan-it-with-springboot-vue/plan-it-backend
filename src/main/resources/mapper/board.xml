@@ -13,13 +13,21 @@
         <result column="user_id" property="userId"/>
     </resultMap>
 
+    <resultMap type="boardCommentDto" id="comment">
+        <result column="board_comment_id" property="boardCommentId"/>
+        <result column="board_id" property="boardId"/>
+        <result column="user_id" property="userId"/>
+        <result column="register_time" property="registerTime"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
     <insert id="writeArticle" parameterType="boardDto">
         insert into board (user_id, subject, content, hit, register_time)
         values (#{userId}, #{subject}, #{content}, 0, now())
     </insert>
 
     <select id="listArticle" resultMap="article">
-        select * from board
+        select * from board order by board_id desc
     </select>
 
     <select id="getArticle" parameterType="int" resultMap="article">
@@ -42,6 +50,26 @@
     <delete id="deleteArticle" parameterType="int">
         delete from board
         where board_id = #{boardId}
+    </delete>
+
+    <insert id="writeComment" parameterType="boardCommentDto">
+        insert into board_comment (board_id, user_id, register_time, content)
+        values (#{boardId}, #{userId}, now(), #{content})
+    </insert>
+
+    <select id="listComment" parameterType="int" resultMap="comment">
+        select * from board_comment where board_id = #{boardId} order by board_comment_id desc
+    </select>
+
+    <update id="modifyComment" parameterType="boardCommentDto">
+        update board_comment
+        set content = #{content}
+        where board_comment_id = #{boardCommentId}
+    </update>
+
+    <delete id="deleteComment" parameterType="int">
+        delete from board_comment
+        where board_comment_id = #{boardCommentId}
     </delete>
 
 </mapper>
