@@ -52,7 +52,7 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam int boardId) throws Exception {
         try {
             boardService.deleteArticle(boardId);
@@ -90,7 +90,7 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/comment/delete")
+    @DeleteMapping("/comment/delete")
     public ResponseEntity<String> deleteComment(@RequestParam int boardCommentId) throws Exception {
         try {
             boardService.deleteComment(boardCommentId);

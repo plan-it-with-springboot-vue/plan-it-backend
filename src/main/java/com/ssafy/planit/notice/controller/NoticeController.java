@@ -51,7 +51,7 @@ public class NoticeController {
         }
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam int noticeId) throws Exception {
         try {
             noticeService.deleteArticle(noticeId);
