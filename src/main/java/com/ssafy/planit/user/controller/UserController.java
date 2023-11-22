@@ -144,4 +144,14 @@ public class UserController {
     public boolean checkDuplicateUserId(@PathVariable String userId) throws Exception {
         return userService.checkDuplicateUserId(userId);
     }
+
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable String userId) throws Exception {
+        try {
+            userService.deleteUserById(userId);
+            return new ResponseEntity<>("User delete successfully", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to delete user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

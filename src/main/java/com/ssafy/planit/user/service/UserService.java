@@ -16,5 +16,5 @@ public interface UserService {
     public void addUser(UserDto userDto) throws Exception;
     public String findUserId(FindUserIdDto findUserIdDto) throws Exception;
     public boolean checkDuplicateUserId(String userId) throws Exception;
-
+    public void deleteUserById(String userId) throws Exception;
 }

@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService {
         int count = userMapper.checkDuplicateUserId(userId);
         return count>0;
     }
+
+    @Override
+    public void deleteUserById(String userId) throws Exception {
+        userMapper.deleteUserById(userId);
+    }
 }

@@ -17,4 +17,5 @@ public interface UserMapper {
     public void addUser(UserDto userDto) throws SQLException;
     public String findUserId(FindUserIdDto findUserIdDto) throws SQLException;
     public int checkDuplicateUserId(String userId) throws SQLException;
+    public void deleteUserById(String userId) throws SQLException;
 }

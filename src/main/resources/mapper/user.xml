@@ -80,4 +80,9 @@
         FROM user
         WHERE user_id = #{userId}
     </select>
+
+    <delete id="deleteUserById" parameterType="String">
+        DELETE FROM user
+        WHERE user_id = #{userId}
+    </delete>
 </mapper>
