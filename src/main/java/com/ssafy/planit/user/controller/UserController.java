@@ -183,11 +183,11 @@ public class UserController {
     }
 
     @PostMapping("/verifyPassword")
-    public ResponseEntity<String> verifyCurrentPassword(@RequestBody VerifyPasswordDto verifyPasswordDto) throws Exception {
+    public boolean verifyCurrentPassword(@RequestBody VerifyPasswordDto verifyPasswordDto) throws Exception {
         if (userService.verifyPassword(verifyPasswordDto.getUserId(), verifyPasswordDto.getUserPassword())) {
-            return ResponseEntity.ok("Current password verified");
+            return true;
         } else {
-            return ResponseEntity.badRequest().body("Current password verification failed");
+            return false;
         }
     }
 
@@ -196,6 +196,16 @@ public class UserController {
         try {
             userService.changePassword(changePasswordDto);
             return new ResponseEntity<>("pass change success", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("failed change", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<String> modify(@RequestBody UserModifyDto userModifyDto) throws Exception {
+        try {
+            userService.modifyUser(userModifyDto);
+            return new ResponseEntity<>("user change success", HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>("failed change", HttpStatus.INTERNAL_SERVER_ERROR);
         }
