@@ -2,12 +2,17 @@ package com.ssafy.planit.board.controller;
 
 import com.ssafy.planit.board.dto.BoardCommentDto;
 import com.ssafy.planit.board.dto.BoardDto;
+import com.ssafy.planit.board.dto.BoardListDto;
 import com.ssafy.planit.board.service.BoardService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/board")
@@ -32,8 +37,18 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public List<BoardDto> list() throws Exception {
-        return boardService.listArticle();
+    public ResponseEntity<?> list(@RequestParam Map<String, String> map) throws Exception {
+        try {
+            System.out.println("--------------검색-----------------------");
+            System.out.println(map.get("key")+" "+map.get("word"));
+            BoardListDto boardListDto = boardService.listArticle(map);
+            HttpHeaders header = new HttpHeaders();
+            header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+            return ResponseEntity.ok().headers(header).body(boardListDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error occurred during board list", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/view")
