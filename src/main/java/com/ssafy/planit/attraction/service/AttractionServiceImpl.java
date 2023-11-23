@@ -58,7 +58,7 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<AttractionInfoDto> getUserFavorites(String userId) {
+    public List<FavoritesDto> getUserFavorites(String userId) {
         return attractionMapper.getUserFavorites(userId);
     }
 
@@ -68,7 +68,8 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public void deleteFavorite(String userId, int contentId) throws Exception {
-        attractionMapper.deleteFavorite(userId, contentId);
+    public void deleteFavorite(int favoritesId) throws Exception {
+        attractionMapper.deleteFavorite(favoritesId);
     }
+
 }

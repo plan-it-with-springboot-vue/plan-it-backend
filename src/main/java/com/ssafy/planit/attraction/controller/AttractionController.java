@@ -68,7 +68,7 @@ public class AttractionController {
     }
 
     @GetMapping("/like")
-    public List<AttractionInfoDto> list(@RequestParam String userId) throws Exception {
+    public List<FavoritesDto> list(@RequestParam String userId) throws Exception {
         return attractionService.getUserFavorites(userId);
     }
 
@@ -83,9 +83,9 @@ public class AttractionController {
     }
 
     @DeleteMapping("/like")
-    public ResponseEntity<String> deleteFavorite(@RequestParam String userId, @RequestParam int contentId) {
+    public ResponseEntity<String> deleteFavorite(@RequestParam int favoritesId) {
         try {
-            attractionService.deleteFavorite(userId, contentId);
+            attractionService.deleteFavorite(favoritesId);
             return new ResponseEntity<>("Favorite deleted successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error occurred during deletion", HttpStatus.INTERNAL_SERVER_ERROR);
