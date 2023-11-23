@@ -89,4 +89,12 @@
     <update id="updatePassword">
         UPDATE user SET user_password = #{newPassword} WHERE user_id = #{userId}
     </update>
+
+    <update id="modifyUserAll" parameterType="com.ssafy.planit.user.dto.UserModifyDto">
+        update user set user_password=#{userPassword}, user_phone_number=#{userPhoneNumber} where user_id=#{userId};
+    </update>
+
+    <update id="modifyUserPhoneNumber" parameterType="com.ssafy.planit.user.dto.UserModifyDto">
+        update user set user_phone_number=#{userPhoneNumber} where user_id=#{userId};
+    </update>
 </mapper>

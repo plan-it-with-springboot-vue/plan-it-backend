@@ -3,6 +3,7 @@ package com.ssafy.planit.user.service;
 import com.ssafy.planit.user.dto.ChangePasswordDto;
 import com.ssafy.planit.user.dto.FindUserIdDto;
 import com.ssafy.planit.user.dto.UserDto;
+import com.ssafy.planit.user.dto.UserModifyDto;
 import com.ssafy.planit.user.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
@@ -81,5 +82,13 @@ public class UserServiceImpl implements UserService {
         userMapper.updatePassword(changePasswordDto.getUserId(), changePasswordDto.getNewPassword());
     }
 
-
+    @Override
+    public void modifyUser(UserModifyDto userModifyDto) throws Exception {
+        if(userModifyDto.getUserPassword()!=null && !userModifyDto.getUserPassword().isEmpty()){
+            userMapper.modifyUserAll(userModifyDto);
+        }
+        else{
+            userMapper.modifyUserPhoneNumber(userModifyDto);
+        }
+    }
 }
