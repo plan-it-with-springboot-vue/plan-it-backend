@@ -21,7 +21,6 @@
         <result property="time" column="time" />
         <result property="sequence" column="sequence" />
 
-
         <association property="attraction" javaType="com.ssafy.planit.attraction.dto.AttractionInfoDto">
             <result property="contentId" column="content_id" />
             <result property="contentTypeId" column="content_type_id" />
@@ -68,7 +67,7 @@
         SELECT
             p.plan_id, p.title, p.start_schedule, p.end_schedule, p.user_id,
             pd.plan_detail_id, pd.plan_id, pd.content_id, pd.plan_date, pd.time, pd.sequence,
-            ai.content_type_id, ai.title AS attractionTitle, ai.addr1, ai.addr2, ai.zipcode,
+            ai.content_type_id, ai.title AS attraction_title, ai.addr1, ai.addr2, ai.zipcode,
             ai.tel, ai.first_image, ai.first_image2, ai.readcount, ai.sido_code, ai.gugun_code,
             ai.latitude, ai.longitude, ai.mlevel
         FROM plan p
