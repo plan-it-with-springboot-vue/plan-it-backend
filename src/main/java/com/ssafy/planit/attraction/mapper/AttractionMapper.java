@@ -20,5 +20,6 @@ public interface AttractionMapper {
     public List<AttractionInfoDto> getUserFavorites(String userId);
     public void saveFavorites(@RequestBody FavoritesDto favoritesDto) throws Exception;
     public void deleteFavorite(String userId, int contentId) throws Exception;
-
+    public List<AttractionInfoDto> popularlist() throws Exception;
+    public List<AttractionInfoDto> recommendlist() throws Exception;
 }

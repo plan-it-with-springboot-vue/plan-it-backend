@@ -91,4 +91,13 @@ public class AttractionController {
             return new ResponseEntity<>("Error occurred during deletion", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/popularlist")
+    public List<AttractionInfoDto> popularlist() throws Exception {
+        return attractionService.popularlist();
+    }
+    @GetMapping("/recommendlist")
+    public List<AttractionInfoDto> recommendlist() throws Exception {
+        return attractionService.recommendlist();
+    }
 }

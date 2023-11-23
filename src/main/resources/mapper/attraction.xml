@@ -93,4 +93,28 @@
     <delete id="deleteFavorite">
         DELETE FROM favorites WHERE user_id = #{userId} AND content_id = #{contentId}
     </delete>
+
+    <select id="popularlist" resultMap="AttractionInfoDtoMap">
+        SELECT
+        a.content_id,
+        a.title,
+        a.addr1,
+        a.first_image,
+        COUNT(f.favorites_id) AS favorites_count
+        FROM
+        attraction_info a
+        LEFT JOIN
+        favorites f ON a.content_id = f.content_id
+        GROUP BY
+        a.content_id, a.title, a.addr1, a.first_image
+        ORDER BY
+        favorites_count DESC, content_id ASC
+        LIMIT 8;
+    </select>
+    <select id="recommendlist" resultMap="AttractionInfoDtoMap">
+        SELECT * FROM attraction_info
+        ORDER BY RAND()
+        LIMIT 10;
+
+    </select>
 </mapper>

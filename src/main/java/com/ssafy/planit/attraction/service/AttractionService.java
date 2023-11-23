@@ -17,5 +17,7 @@ public interface AttractionService {
     public List<AttractionInfoDto> getUserFavorites(String userId);
     public void saveFavorites(@RequestBody FavoritesDto favoritesDto) throws Exception;
     void deleteFavorite(String userId, int favoritesId) throws Exception;
+    public List<AttractionInfoDto> popularlist() throws Exception;
+    public List<AttractionInfoDto> recommendlist() throws Exception;
 }
 
