@@ -68,7 +68,7 @@ public class AttractionController {
     }
 
     @GetMapping("/like")
-    public List<AttractionInfoDto> list(@RequestParam String userId) throws Exception {
+    public List<FavoritesDto> list(@RequestParam String userId) throws Exception {
         return attractionService.getUserFavorites(userId);
     }
 

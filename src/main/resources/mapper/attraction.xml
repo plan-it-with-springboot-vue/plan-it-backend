@@ -37,10 +37,9 @@
         <result property="contentId" column="content_id"/>
     </resultMap>
 
-    <resultMap id="FavoritesDtoMap" type="FavoritesDto">
-        <id property="favoritesId" column="favorites_id"/>
-        <result property="contentId" column="content_id"/>
-        <result property="userId" column="user_id"/>
+    <resultMap id="FavoritesResultMap" type="FavoritesDto">
+        <id property="favoritesId" column="favorites_id" />
+        <association property="attraction" resultMap="AttractionInfoDtoMap"/>
     </resultMap>
 
     <select id="listAttraction" resultMap="AttractionInfoDtoMap">
@@ -84,12 +83,10 @@
         WHERE review_id = #{reviewId}
     </delete>
 
-    <select id="getUserFavorites" resultMap="AttractionInfoDtoMap">
-        SELECT ai.content_id, ai.title, ai.addr1, ai.addr2, ai.zipcode, ai.tel, ai.content_type_id,
-               ai.first_image, ai.first_image2, ai.readcount, ai.sido_code,
-               ai.gugun_code, ai.latitude, ai.longitude, ai.mlevel
-        FROM favorites f
-                 JOIN attraction_info ai ON f.content_id = ai.content_id
+    <select id="getUserFavorites" resultMap="FavoritesResultMap">
+        SELECT ai.*, f.favorites_id
+        FROM attraction_info ai
+                 JOIN favorites f ON ai.content_id=f.content_id
         WHERE f.user_id = #{userId}
     </select>
 

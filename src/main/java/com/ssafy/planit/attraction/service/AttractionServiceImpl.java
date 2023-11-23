@@ -58,7 +58,7 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<AttractionInfoDto> getUserFavorites(String userId) {
+    public List<FavoritesDto> getUserFavorites(String userId) {
         return attractionMapper.getUserFavorites(userId);
     }
 

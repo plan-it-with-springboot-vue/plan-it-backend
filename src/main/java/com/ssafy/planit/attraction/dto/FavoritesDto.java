@@ -6,12 +6,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class FavoritesDto {
-    private int favoritesId;
-    private int contentId;
-    private String userId;
 
-    public FavoritesDto(int contentId, String userId) {
-        this.contentId = contentId;
-        this.userId = userId;
-    }
+    private int favoritesId;
+    private AttractionInfoDto attraction;
+
 }
