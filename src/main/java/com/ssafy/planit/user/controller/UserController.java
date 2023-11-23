@@ -161,12 +161,12 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/emailSend")
-    public ResponseEntity<String> EmailCheck(@RequestBody EmailCheckDto emailCheckReq) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<String> emailSend(@RequestBody EmailCheckDto emailCheckReq) throws MessagingException, UnsupportedEncodingException {
         try {
             String authCode = emailService.sendEmail(emailCheckReq.getEmail());
-            return new ResponseEntity<>("Email success", HttpStatus.OK);
+            return new ResponseEntity<>("true", HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>("Email Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("false", HttpStatus.OK);
         }
 
     }
@@ -175,10 +175,10 @@ public class UserController {
     public ResponseEntity<String> AuthCheck(@RequestBody EmailCheckDto emailCheckReq){
         boolean Checked=emailService.checkAuthNum(emailCheckReq.getEmail(),emailCheckReq.getAuthNum());
         if(Checked){
-            return new ResponseEntity<>("Auth code check success", HttpStatus.OK);
+            return new ResponseEntity<>("true", HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>("failed auth check", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("false", HttpStatus.OK);
         }
     }
 
