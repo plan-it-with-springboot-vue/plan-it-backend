@@ -68,7 +68,8 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public void deleteFavorite(String userId, int contentId) throws Exception {
-        attractionMapper.deleteFavorite(userId, contentId);
+    public void deleteFavorite(int favoritesId) throws Exception {
+        attractionMapper.deleteFavorite(favoritesId);
     }
+
 }

@@ -19,6 +19,6 @@ public interface AttractionMapper {
     public void deleteAttractionComment(@RequestParam int reviewId) throws Exception;
     public  List<FavoritesDto> getUserFavorites(String userId);
     public void saveFavorites(@RequestBody FavoritesDto favoritesDto) throws Exception;
-    void deleteFavorite(String userId, int contentId) throws Exception;
+    void deleteFavorite(int favoritesId) throws Exception;
 
 }

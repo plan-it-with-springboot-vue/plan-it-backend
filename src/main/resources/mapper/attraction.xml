@@ -96,6 +96,6 @@
     </insert>
 
     <delete id="deleteFavorite">
-        DELETE FROM favorites WHERE user_id = #{userId} AND content_id = #{contentId}
+        DELETE FROM favorites WHERE favorites_id = #{favoritesId}
     </delete>
 </mapper>
