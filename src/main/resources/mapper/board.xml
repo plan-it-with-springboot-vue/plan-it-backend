@@ -26,8 +26,41 @@
         values (#{userId}, #{subject}, #{content}, 0, now())
     </insert>
 
-    <select id="listArticle" resultMap="article">
-        select * from board order by board_id desc
+    <sql id="search">
+        <if test="word != null and word != ''">
+            <if test="key == 'subject'">
+                and subject like concat('%', #{word}, '%')
+            </if>
+            <if test="key != 'subject'">
+                and ${key} = #{word}
+            </if>
+        </if>
+    </sql>
+
+    <select id="listArticle" parameterType="map" resultMap="article">
+        select b.board_id, b.user_id, b.subject, b.content, b.hit, b.register_time, u.user_name
+        from board b, user u
+        where b.user_id = u.user_id
+        <include refid="search"></include>
+        order by board_id desc
+        limit #{start}, #{listsize}
+    </select>
+
+    <select id="listArticlePopularity" parameterType="map" resultMap="article">
+        select b.board_id, b.user_id, b.subject, b.content, b.hit, b.register_time, u.user_name
+        from board b, user u
+        where b.user_id = u.user_id
+        <include refid="search"></include>
+        order by hit desc, board_id asc
+        limit #{start}, #{listsize}
+    </select>
+
+    <select id="getTotalArticleCount" parameterType="map" resultType="int">
+        select count(board_id)
+        from board
+        <where>
+            <include refid="search"></include>
+        </where>
     </select>
 
     <select id="getArticle" parameterType="int" resultMap="article">
