@@ -72,4 +72,14 @@ public class AttractionServiceImpl implements AttractionService {
         attractionMapper.deleteFavorite(userId, contentId);
     }
 
+    @Override
+    public List<AttractionInfoDto> popularlist() throws Exception {
+        return attractionMapper.popularlist();
+    }
+
+    @Override
+    public List<AttractionInfoDto> recommendlist() throws Exception {
+        return attractionMapper.recommendlist();
+    }
+
 }
