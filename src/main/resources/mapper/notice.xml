@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.notice.mapper.NoticeMapper">
+
+    <resultMap type="noticeDto" id="article">
+        <result column="notice_id" property="noticeId"/>
+        <result column="subject" property="subject"/>
+        <result column="content" property="content"/>
+        <result column="hit" property="hit"/>
+        <result column="register_time" property="registerTime"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+
+    <insert id="writeArticle" parameterType="noticeDto">
+        insert into notice (user_id, subject, content, hit, register_time)
+        values (#{userId}, #{subject}, #{content}, 0, now())
+    </insert>
+
+    <select id="listArticle" resultMap="article">
+        select * from notice order by notice_id desc
+    </select>
+
+    <select id="getArticle" parameterType="int" resultMap="article">
+        select * from notice
+        where notice_id = #{noticeId}
+    </select>
+
+    <update id="updateHit" parameterType="int">
+        update notice
+        set hit = hit + 1
+        where notice_id = #{noticeId}
+    </update>
+
+    <update id="modifyArticle" parameterType="noticeDto">
+        update notice
+        set subject = #{subject}, content = #{content}
+        where notice_id = #{noticeId}
+    </update>
+
+    <delete id="deleteArticle" parameterType="int">
+        delete from notice
+        where notice_id = #{noticeId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.user.mapper.UserMapper">
+
+    <resultMap type="userDto" id="user">
+        <result column="user_id" property="userId"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_phone_number" property="userPhoneNumber"/>
+        <result column="user_email" property="userEmail"/>
+        <result column="user_birth" property="userBirth"/>
+        <result column="user_gender" property="userGender"/>
+        <result column="user_join_date" property="userJoinDate"/>
+        <result column="token" property="refreshToken"/>
+    </resultMap>
+
+    <select id="login" parameterType="map" resultMap="user">
+        select user_id, user_name, token
+        from user
+        where user_id = #{userId} and user_password = #{userPassword}
+    </select>
+
+    <select id="userInfo" parameterType="string" resultMap="user">
+        select *
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <update id="saveRefreshToken" parameterType="map">
+        update user
+        set token = #{token}
+        where user_id = #{userId}
+    </update>
+
+    <select id="getRefreshToken" parameterType="string" resultType="string">
+        select token
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <update id="deleteRefreshToken" parameterType="map">
+        update user
+        set token = #{token, jdbcType=VARCHAR}
+        where user_id = #{userId}
+    </update>
+
+    <insert id="addUser" parameterType="UserDto">
+        INSERT INTO `user` (
+            user_id,
+            user_password,
+            user_name,
+            user_phone_number,
+            user_email,
+            user_birth,
+            user_gender,
+            user_join_date
+        ) VALUES (
+            #{userId},
+            #{userPassword},
+            #{userName},
+            #{userPhoneNumber},
+            #{userEmail},
+            #{userBirth},
+            #{userGender},
+            NOW()
+        )
+    </insert>
+
+    <select id="findUserId" parameterType="com.ssafy.planit.user.dto.FindUserIdDto" resultType="String">
+        SELECT user_id
+        FROM user
+        WHERE user_email = #{userEmail}
+          AND user_birth = #{userBirth}
+    </select>
+
+    <select id="checkDuplicateUserId" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
+    <delete id="deleteUserById" parameterType="String">
+        DELETE FROM user
+        WHERE user_id = #{userId}
+    </delete>
+
+    <update id="updatePassword">
+        UPDATE user SET user_password = #{newPassword} WHERE user_id = #{userId}
+    </update>
+
+    <update id="modifyUserAll" parameterType="com.ssafy.planit.user.dto.UserModifyDto">
+        update user set user_password=#{userPassword}, user_phone_number=#{userPhoneNumber} where user_id=#{userId};
+    </update>
+
+    <update id="modifyUserPhoneNumber" parameterType="com.ssafy.planit.user.dto.UserModifyDto">
+        update user set user_phone_number=#{userPhoneNumber} where user_id=#{userId};
+    </update>
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.attraction.mapper.AttractionMapper">
+
+    <resultMap id="AttractionInfoDtoMap" type="AttractionInfoDto">
+        <id property="contentId" column="content_id" />
+        <result property="contentTypeId" column="content_type_id" />
+        <result property="title" column="title" />
+        <result property="addr1" column="addr1" />
+        <result property="addr2" column="addr2" />
+        <result property="zipcode" column="zipcode" />
+        <result property="tel" column="tel" />
+        <result property="firstImage" column="first_image" />
+        <result property="firstImage2" column="first_image2" />
+        <result property="readcount" column="readcount" />
+        <result property="sidoCode" column="sido_code" />
+        <result property="gugunCode" column="gugun_code" />
+        <result property="latitude" column="latitude" />
+        <result property="longitude" column="longitude" />
+        <result property="mlevel" column="mlevel" />
+    </resultMap>
+
+    <resultMap id="AttractionDescriptionDtoMap" type="AttractionDescriptionDto">
+        <id property="contentId" column="content_id" />
+        <result property="homepage" column="homepage" />
+        <result property="overview" column="overview" />
+        <result property="telname" column="telname" />
+    </resultMap>
+
+    <resultMap id="AttractionCommentResultMap" type="AttractionCommentDto">
+        <id property="reviewId" column="review_id"/>
+        <result property="content" column="content"/>
+        <result property="registerTime" column="register_time"/>
+        <result property="userId" column="user_id"/>
+        <result property="contentId" column="content_id"/>
+    </resultMap>
+
+    <select id="listAttraction" resultMap="AttractionInfoDtoMap">
+        SELECT *
+        FROM attraction_info
+        WHERE sido_code = #{sidoCode}
+        <if test="gugunCode != null">
+            AND gugun_code = #{gugunCode}
+        </if>
+        <if test="contentTypeIds != null and contentTypeIds.size() > 0">
+            AND content_type_id IN
+            <foreach item="contentTypeId" collection="contentTypeIds" open="(" separator="," close=")">
+                #{contentTypeId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="viewAttraction" resultMap="AttractionDescriptionDtoMap">
+        select content_id, homepage, overview, telname
+        from attraction_description
+        where content_id = #{contentId}
+    </select>
+
+    <select id="searchByTitle" resultMap="AttractionInfoDtoMap">
+        SELECT * FROM attraction_info WHERE title LIKE CONCAT('%', #{title}, '%')
+    </select>
+
+    <select id="viewAttractionComment" resultMap="AttractionCommentResultMap">
+        SELECT review_id, content, register_time, user_id, content_id
+        FROM attraction_comment
+        WHERE content_id = #{contentId}
+    </select>
+
+    <insert id="writeAttractionComment" parameterType="AttractionCommentDto">
+        INSERT INTO attraction_comment (content, register_time, user_id, content_id)
+        VALUES (#{content}, NOW(), #{userId}, #{contentId})
+    </insert>
+
+    <delete id="deleteAttractionComment">
+        DELETE FROM attraction_comment
+        WHERE review_id = #{reviewId}
+    </delete>
+
+    <select id="getUserFavorites" resultMap="AttractionInfoDtoMap">
+        SELECT ai.*
+        FROM favorites f
+                 JOIN attraction_info ai ON f.content_id = ai.content_id
+        WHERE f.user_id = #{userId}
+    </select>
+
+    <insert id="saveFavorites">
+        INSERT INTO favorites (user_id, content_id)
+        VALUES (#{userId}, #{contentId})
+    </insert>
+
+    <delete id="deleteFavorite">
+        DELETE FROM favorites WHERE user_id = #{userId} AND content_id = #{contentId}
+    </delete>
+
+    <select id="popularlist" resultMap="AttractionInfoDtoMap">
+        SELECT
+        a.content_id,
+        a.title,
+        a.addr1,
+        a.first_image,
+        COUNT(f.favorites_id) AS favorites_count
+        FROM
+        attraction_info a
+        LEFT JOIN
+        favorites f ON a.content_id = f.content_id
+        GROUP BY
+        a.content_id, a.title, a.addr1, a.first_image
+        ORDER BY
+        favorites_count DESC, content_id ASC
+        LIMIT 8;
+    </select>
+    <select id="recommendlist" resultMap="AttractionInfoDtoMap">
+        SELECT * FROM attraction_info
+        ORDER BY RAND()
+        LIMIT 10;
+
+    </select>
+</mapper>

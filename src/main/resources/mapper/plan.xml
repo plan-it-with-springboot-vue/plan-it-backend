@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.planit.plan.mapper.PlanMapper">
+    <resultMap id="planResultWithDetails" type="com.ssafy.planit.plan.dto.PlanDto">
+        <id property="planId" column="plan_id" />
+        <result property="title" column="title" />
+        <result property="startSchedule" column="start_schedule" />
+        <result property="endSchedule" column="end_schedule" />
+        <result property="userId" column="user_id" />
+
+        <!-- PlanDetailDto 매핑 -->
+        <collection property="planDetail" ofType="com.ssafy.planit.plan.dto.PlanDetailDto" resultMap="planDetailResult"/>
+    </resultMap>
+
+    <resultMap id="planDetailResult" type="com.ssafy.planit.plan.dto.PlanDetailDto">
+        <id property="planDetailId" column="plan_detail_id" />
+        <result property="planId" column="plan_id" />
+        <result property="planDate" column="plan_date" />
+        <result property="time" column="time" />
+        <result property="sequence" column="sequence" />
+
+        <association property="attraction" javaType="com.ssafy.planit.attraction.dto.AttractionInfoDto">
+            <result property="contentId" column="content_id" />
+            <result property="contentTypeId" column="content_type_id" />
+            <result property="title" column="attraction_title" />
+            <result property="addr1" column="addr1" />
+            <result property="addr2" column="addr2" />
+            <result property="zipcode" column="zipcode" />
+            <result property="tel" column="tel" />
+            <result property="firstImage" column="first_image" />
+            <result property="firstImage2" column="first_image2" />
+            <result property="readcount" column="readcount" />
+            <result property="sidoCode" column="sido_code" />
+            <result property="gugunCode" column="gugun_code" />
+            <result property="latitude" column="latitude" />
+            <result property="longitude" column="longitude" />
+            <result property="mlevel" column="mlevel" />
+        </association>
+    </resultMap>
+
+    <resultMap id="planResult" type="com.ssafy.planit.plan.dto.PlanDto">
+        <id property="planId" column="plan_id"/>
+        <result property="title" column="title"/>
+        <result property="startSchedule" column="start_schedule"/>
+        <result property="endSchedule" column="end_schedule"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+    <insert id="insertPlan" parameterType="com.ssafy.planit.plan.dto.PlanDto">
+        <selectKey keyProperty="planId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO plan (title, start_schedule, end_schedule, user_id)
+        VALUES (#{title}, #{startSchedule}, #{endSchedule}, #{userId})
+    </insert>
+
+    <insert id="insertPlanDetail" parameterType="com.ssafy.planit.plan.dto.PlanDetailDto">
+        INSERT INTO plan_detail (plan_id, content_id, plan_date, time, sequence)
+        VALUES (#{planId}, #{attraction.contentId}, #{planDate}, #{time}, #{sequence})
+    </insert>
+
+
+    <select id="getPlanById" parameterType="int" resultMap="planResultWithDetails">
+        SELECT
+            p.plan_id, p.title, p.start_schedule, p.end_schedule, p.user_id,
+            pd.plan_detail_id, pd.plan_id, pd.content_id, pd.plan_date, pd.time, pd.sequence,
+            ai.content_type_id, ai.title AS attraction_title, ai.addr1, ai.addr2, ai.zipcode,
+            ai.tel, ai.first_image, ai.first_image2, ai.readcount, ai.sido_code, ai.gugun_code,
+            ai.latitude, ai.longitude, ai.mlevel
+        FROM plan p
+                 LEFT JOIN plan_detail pd ON p.plan_id = pd.plan_id
+                 LEFT JOIN attraction_info ai ON pd.content_id = ai.content_id
+        WHERE p.plan_id = #{planId}
+    </select>
+
+    <select id="listPlanByUserId" parameterType="String" resultMap="planResult">
+        SELECT
+            plan_id, title, start_schedule, end_schedule, user_id
+        FROM plan
+        WHERE user_id = #{userId}
+    </select>
+
+    <delete id="deletePlanById" parameterType="int">
+        DELETE FROM plan WHERE plan_id = #{planId}
+    </delete>
+
+    <delete id="deletePlanDetailByPlanId" parameterType="int">
+        DELETE FROM plan_detail WHERE plan_id = #{planId}
+    </delete>
+</mapper>
